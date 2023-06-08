@@ -15,7 +15,11 @@
 (defroutes app-routes
   (GET "/" [] "Olá, mundo!")
   (GET "/saldo" [] (como-json {:saldo (db/saldo)}))
-  (GET "/aplicacoes" [] (como-json (db/listaAplicacoes)))
+  (GET "/aplicacoes" [tipo]
+    (let [aplicacoes (if tipo
+                       (filter (fn [x] (= tipo (:tipo x))) (db/listaAplicacoes))
+                       (db/listaAplicacoes))]
+      (como-json aplicacoes)))
   (POST "/transacoes" requisicao
     (if (transacoes/valida? (:body requisicao))
       (-> (db/registrar (:body requisicao))

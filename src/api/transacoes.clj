@@ -10,4 +10,7 @@
        (contains? transacao :acao)
        (contains? transacao :quantidade)
        (number? (:quantidade transacao))
-       (pos? (:quantidade transacao))))
+       (pos? (:quantidade transacao))
+       (contains? transacao :operacao)
+       (or (= "aplicacao" (:operacao transacao))
+           (= "resgate" (:operacao transacao)))))
