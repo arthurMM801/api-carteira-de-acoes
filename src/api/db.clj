@@ -9,25 +9,17 @@
 (defn transacoes []
   @registros)
 
-;(defn- despesa? [transacao]
-;  (= (:tipo transacao) "despesa"))
-;
-;(defn- calcular [acumulado transacao]
-;  (let [valor (:valor transacao)]
-;    (if (despesa? transacao)
-;      (- acumulado valor)
-;      (+ acumulado valor))))
-
+(defn listaAplicacoes []
+  (transacoes))
 
 (defn- aplicacao? [transacao]
   (= (:operacao transacao) "aplicacao"))
 
+
 (defn- op [acumulado transacao]
   (let [valor (* (:cotacao transacao) (:quantidade transacao))]
-    (if aplicacao? (- acumulado valor) (+ acumulado valor))))
+    (if (aplicacao? transacao) (- acumulado valor) (+ acumulado valor))))
 
-(defn listaAplicacoes []
-  (transacoes))
 
 (defn saldo []
   (reduce op 1000 @registros))
